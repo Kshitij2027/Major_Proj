@@ -1,22 +1,38 @@
-const express = require('express');
+import express from 'express';
+import dotenv from "dotenv";
+import cors from "cors";
+import cookieParser from 'cookie-parser';
+import fileUpload from 'express-fileupload';
+import userRouter from "./routes/userRouter.js";
+import applicationRouter from "./routes/applicationRouter.js";
+import jobRouter from "./routes/jobRouter.js";
+import {dbConnection} from './database/dbConnection.js'
+import {errorMiddleware} from "./middlewears/error.js"
+
 const app = express();
-const PORT = process.env.PORT || 8000;
+dotenv.config( {path: './config/config.env'})
 
-// get request for homepage
+app.use(cors({
+    origin: [process.env.FRONTEND_URL],
+    methods: ['GET', 'POST', 'DELETE', 'PUT'],
+    credentials: true,
+}));
 
-// app.get("/", (req, res)=>{
-//     res.send("Hii , I am Live!");
-// })
+app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 
-// 
-const start = async ()=>{
-    try {
-        app.listen(PORT, ()=>{
-            console.log(`${PORT} Yes I am Connected`);
-        })
-    } catch (error) {
-        console.log(error);
-    }
-}
+app.use(fileUpload({
+    useTempFiles: true,
+    tempFileDir: "/temp/",
+}));
 
-start();
+app.use('/api/v1/user', userRouter);
+app.use('/api/v1/application', applicationRouter);
+app.use('/api/v1/job', jobRouter);
+
+dbConnection();
+
+
+app.use(errorMiddleware)
+export default app;
