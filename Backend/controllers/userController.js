@@ -57,3 +57,13 @@ export const logout = cathAsyncErrors(async(req, res, next)=>{
         message: "User Logged out successfully!",
     });
 })
+
+// function to get the user for frontend
+export const getUser = cathAsyncErrors((req, res, next)=>{
+    const user = req.user;
+    res.status(200).json({
+        success: true,
+        user,
+
+    })
+})
