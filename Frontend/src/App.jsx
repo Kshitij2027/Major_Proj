@@ -1,10 +1,9 @@
 import React, { useContext, useEffect } from "react";
-import "./App.css";
 import { Context } from "./main";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
-import { Toaster } from "react-hot-toast";
 import axios from "axios";
 import Navbar from "./components/Layout/Navbar";
 import Footer from "./components/Layout/Footer";
@@ -16,6 +15,7 @@ import MyApplications from "./components/Application/MyApplications";
 import PostJob from "./components/Job/PostJob";
 import NotFound from "./components/NotFound/NotFound";
 import MyJobs from "./components/Job/MyJobs";
+import "./App.css";
 
 const App = () => {
   const { isAuthorized, setIsAuthorized, setUser } = useContext(Context);
